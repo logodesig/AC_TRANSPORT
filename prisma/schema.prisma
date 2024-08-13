@@ -62,10 +62,7 @@ model Address {
   country   String
   city      String
   quater    String?
-  longitude Int?
-  latitude  Int?
   order     Int?
-
   Opportunite Opportunite[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
@@ -79,12 +76,14 @@ model Address {
 
 model Vehicles {
   id               String   @id @default(uuid()) 
+  name             String
   type             String
   immatriculation  String @unique
   state            String
   model            String
   tonnage          Int
   firstYearTakeoff DateTime
+  address          String
 
   maintenances Maintenance[]
   marchandise  Marchandise[]

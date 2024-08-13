@@ -1,87 +1,11 @@
-/*
-  Warnings:
+-- CreateEnum
+CREATE TYPE "UserType" AS ENUM ('SUPERADMIN', 'ADMIN', 'CHAUFFEUR');
 
-  - You are about to drop the `Address` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `DriverProfil` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Incident` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Maintenance` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Marchandise` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Mission` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Note` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Opportunite` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Role` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `User` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Vehicles` table. If the table is not empty, all the data it contains will be lost.
+-- CreateEnum
+CREATE TYPE "VolumeUnit" AS ENUM ('CM3', 'CBM', 'LITRES', 'M3');
 
-*/
--- DropForeignKey
-ALTER TABLE "Address" DROP CONSTRAINT "Address_incidentId_fkey";
-
--- DropForeignKey
-ALTER TABLE "Address" DROP CONSTRAINT "Address_missionId_fkey";
-
--- DropForeignKey
-ALTER TABLE "DriverProfil" DROP CONSTRAINT "DriverProfil_UserId_fkey";
-
--- DropForeignKey
-ALTER TABLE "Incident" DROP CONSTRAINT "Incident_missionId_fkey";
-
--- DropForeignKey
-ALTER TABLE "Maintenance" DROP CONSTRAINT "Maintenance_vehicleId_fkey";
-
--- DropForeignKey
-ALTER TABLE "Marchandise" DROP CONSTRAINT "Marchandise_vehicleId_fkey";
-
--- DropForeignKey
-ALTER TABLE "Mission" DROP CONSTRAINT "Mission_driverid_fkey";
-
--- DropForeignKey
-ALTER TABLE "Mission" DROP CONSTRAINT "Mission_userCreateId_fkey";
-
--- DropForeignKey
-ALTER TABLE "Mission" DROP CONSTRAINT "Mission_vehicleid_fkey";
-
--- DropForeignKey
-ALTER TABLE "Note" DROP CONSTRAINT "Note_marchandiseId_fkey";
-
--- DropForeignKey
-ALTER TABLE "Opportunite" DROP CONSTRAINT "Opportunite_addressId_fkey";
-
--- DropForeignKey
-ALTER TABLE "User" DROP CONSTRAINT "User_roleId_fkey";
-
--- DropTable
-DROP TABLE "Address";
-
--- DropTable
-DROP TABLE "DriverProfil";
-
--- DropTable
-DROP TABLE "Incident";
-
--- DropTable
-DROP TABLE "Maintenance";
-
--- DropTable
-DROP TABLE "Marchandise";
-
--- DropTable
-DROP TABLE "Mission";
-
--- DropTable
-DROP TABLE "Note";
-
--- DropTable
-DROP TABLE "Opportunite";
-
--- DropTable
-DROP TABLE "Role";
-
--- DropTable
-DROP TABLE "User";
-
--- DropTable
-DROP TABLE "Vehicles";
+-- CreateEnum
+CREATE TYPE "MissionStatus" AS ENUM ('IN_COMMING', 'CURRENTLY', 'FINISH');
 
 -- CreateTable
 CREATE TABLE "user" (
