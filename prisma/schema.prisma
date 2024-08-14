@@ -178,7 +178,7 @@ model Note {
 
 model DriverProfil {
   id                     String   @id @default(uuid())
-  DrvingLicense          String
+  DrivingLicense          String
   ImmatriculationNumber  String
   DateOfBirth            DateTime
   DrivingLicenseRectoUrl String?
