@@ -31,6 +31,7 @@ model User {
   createdMission   Mission[] @relation("userCreate")
 
   @@map("user")
+  Maintenance Maintenance[]
 }
 
 model Role {
@@ -75,10 +76,9 @@ model Address {
 }
 
 model Vehicles {
-  id               String   @id @default(uuid()) 
+  id               String   @id
   name             String
   type             String
-  immatriculation  String @unique
   state            String
   model            String
   tonnage          Int
@@ -101,6 +101,7 @@ model Maintenance {
   maintenanceDate DateTime
   vehicle         Vehicles @relation(fields: [vehicleId], references: [id])
   vehicleId       String
+  user User[]
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
@@ -178,8 +179,8 @@ model Note {
 
 model DriverProfil {
   id                     String   @id @default(uuid())
-  DrivingLicense          String
-  ImmatriculationNumber  String
+  DrivingLicense         String
+  vehicleId              String
   DateOfBirth            DateTime
   DrivingLicenseRectoUrl String?
   DrivingLicenseVersoUrl String?

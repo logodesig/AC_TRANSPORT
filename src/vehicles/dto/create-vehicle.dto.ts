@@ -1,7 +1,7 @@
 export class CreateVehicleDto {
+    id: string;
     name: string;
     type: string;
-    immatriculation: string;
     state: string;
     model: string;
     tonnage: number;

@@ -6,7 +6,9 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class DriverprofilService {
   constructor(private prisma: PrismaService) {}
   create(createDriverprofilDto: CreateDriverprofilDto) {
-    return this.prisma.driverProfil.create({ data: createDriverprofilDto });
+    return this.prisma.driverProfil.create({
+       data: createDriverprofilDto,
+      });
   }
 
   findAll() {

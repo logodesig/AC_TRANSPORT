@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, Query } from '@nestjs/common';
 import { MissionService } from './mission.service';
 import { CreateMissionDto } from './dto/create-mission.dto';
 import { UpdateMissionDto } from './dto/update-mission.dto';
@@ -32,4 +32,37 @@ export class MissionController {
   remove(@Param('id') id: string) {
     return this.missionService.remove(id);
   }
+
+   // Mettre à jour le statut d'une mission
+   @Patch(':id/status')
+   updateMissionStatus(
+     @Param('id') id: string,
+     @Body('status') status: MissionStatus,
+   ) {
+     return this.missionService.updateMissionStatus(id, status);
+   }
+//routes pour compter une mission
+   @Get('count')
+   countMission() {
+     return this.missionService.countMission();
+   }
+
+   //Recupere les missions terminees
+   @Get(':id/mission/completed')
+   getCompletedMissionByVehiclesId(@Param('id') vehicleid: string) {
+     return this.missionService.getCompletedMissionByVehicleId(vehicleid);
+   }
+
+   //Route pour rechercher une mission par date de debut et de fin
+   @Get('date-range')
+   findMissionByDateRange(
+     @Query('start') dateStart: string,
+     @Query('end') dateFinish: string,
+   ) {
+     return this.missionService.findMissionByDateRange(
+       new Date(dateStart),
+       new Date(dateFinish),
+     );
+   }
+   
 }
