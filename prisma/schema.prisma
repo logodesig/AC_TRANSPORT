@@ -83,7 +83,6 @@ model Vehicles {
   model            String
   tonnage          Int
   firstYearTakeoff DateTime
-  address          String
 
   maintenances Maintenance[]
   marchandise  Marchandise[]
