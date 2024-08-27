@@ -3,17 +3,16 @@ import { VehiclesService } from './vehicles.service';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
 import { UpdateVehicleDto } from './dto/update-vehicle.dto';
 import { MissionStatus } from '@prisma/client';
-
+import { publicDecrypt } from 'crypto';
+import { Public } from '../auth/decorators/public.decorator';
 @Controller('vehicles')
 export class VehiclesController {
   constructor(private readonly vehiclesService: VehiclesService) {}
-
+@Public ()
   @Post()
   create(@Body() createVehicleDto: CreateVehicleDto) {
     return this.vehiclesService.create(createVehicleDto);
   }
-
-
   @Get()
   findAll() {
     return this.vehiclesService.findAll();

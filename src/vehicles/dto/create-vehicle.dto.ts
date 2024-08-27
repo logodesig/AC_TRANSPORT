@@ -1,5 +1,5 @@
 export class CreateVehicleDto {
-    id: string;
+    
     name: string;
     type: string;
     state: string;
