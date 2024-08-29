@@ -22,7 +22,7 @@ model User {
   surname      String?
   role         Role?          @relation(fields: [roleId], references: [id])
   roleId       String?
-  avatarUrl    String
+  avatarUrl    String?
   mission      Mission[]      @relation("driverUser")
   DriverProfil DriverProfil[]
 
@@ -76,13 +76,15 @@ model Address {
 }
 
 model Vehicles {
-  id               String   @id
+  id               String   @id @default(uuid())
   name             String
   type             String
   state            String
   model            String
   tonnage          Int
-  firstYearTakeoff DateTime
+  firstYearTakeoff DateTime?
+  latitude Float?
+  longitude Float?
 
   maintenances Maintenance[]
   marchandise  Marchandise[]
@@ -182,12 +184,12 @@ model DriverProfil {
   name                   String
   email                  String
   password               String
-  vehicleId              String
+  vehicleId              String?
   DateOfBirth            DateTime
   DrivingLicenseRectoUrl String?
   DrivingLicenseVersoUrl String?
-  User                   User     @relation(fields: [UserId], references: [id])
-  UserId                 String
+  User                   User?     @relation(fields: [UserId], references: [id])
+  UserId                 String?
   createdAt              DateTime @default(now())
   updatedAt              DateTime @updatedAt
 
