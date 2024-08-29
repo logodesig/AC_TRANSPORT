@@ -82,9 +82,7 @@ model Vehicles {
   state            String
   model            String
   tonnage          Int
-  firstYearTakeoff DateTime?
-  latitude Float?
-  longitude Float?
+  firstYearTakeoff DateTime
 
   maintenances Maintenance[]
   marchandise  Marchandise[]
