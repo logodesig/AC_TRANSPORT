@@ -21,7 +21,7 @@ export class VehiclesController {
   update(@Param('id') id: string, @Body() updateVehicleDto: UpdateVehicleDto) {
     return this.vehiclesService.update(id, updateVehicleDto);
   }
-
+@Public ()
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.vehiclesService.remove(id);
