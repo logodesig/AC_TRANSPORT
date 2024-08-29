@@ -179,6 +179,9 @@ model Note {
 model DriverProfil {
   id                     String   @id @default(uuid())
   DrivingLicense         String
+  name                   String
+  email                  String
+  password               String
   vehicleId              String
   DateOfBirth            DateTime
   DrivingLicenseRectoUrl String?
