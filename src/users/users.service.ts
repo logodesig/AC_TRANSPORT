@@ -10,14 +10,14 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     // Check if the roleId exists in the role table
-    const role = await this.prisma.role.findUnique({
-      where: {
-        id: createUserDto.roleId,
-      },
-    });
-    if (!role) {
-      throw new Error('Invalid roleId');
-    }
+    // const role = await this.prisma.role.findUnique({
+    //   where: {
+    //     id: createUserDto.roleId,
+    //   },
+    // });
+    // if (!role) {
+    //   throw new Error('Invalid roleId');
+    // }
 
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(createUserDto.password, salt);

@@ -13,6 +13,7 @@ import { MarchandiseModule } from './marchandise/marchandise.module';
 import { MissionModule } from './mission/mission.module';
 import { NoteModule } from './note/note.module';
 import { DriverprofilModule } from './driverprofil/driverprofil.module';
+
 //////
 //import { PrismaService } from 'src/prisma/prisma.service';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -21,7 +22,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
      AuthModule, IncidentsModule,
       RolesModule, OpportuniteModule, AddressModule,
        VehiclesModule, MaintenanceModule, MarchandiseModule, MissionModule,
-        NoteModule, DriverprofilModule ],
+        NoteModule, DriverprofilModule, ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
 })

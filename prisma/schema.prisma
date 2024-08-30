@@ -20,8 +20,8 @@ model User {
   type         UserType?
   password     String
   surname      String?
-  role         Role?          @relation(fields: [roleId], references: [id])
-  roleId       String?
+  // role         Role? @relation(fields: [role], references: [id])
+// roleid String?
   avatarUrl    String?
   mission      Mission[]      @relation("driverUser")
   DriverProfil DriverProfil[]
@@ -39,7 +39,7 @@ model Role {
   name        String
   description String
 
-  user User[]
+  // user User[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -82,7 +82,7 @@ model Vehicles {
   state            String
   model            String
   tonnage          Int
-  firstYearTakeoff DateTime
+  firstYearTakeoff DateTime?
 
   maintenances Maintenance[]
   marchandise  Marchandise[]
@@ -179,9 +179,9 @@ model Note {
 model DriverProfil {
   id                     String   @id @default(uuid())
   DrivingLicense         String
-  name                   String
-  email                  String
-  password               String
+  name                   String?
+  email                  String?
+  password               String?
   vehicleId              String?
   DateOfBirth            DateTime
   DrivingLicenseRectoUrl String?
@@ -205,3 +205,15 @@ model Incident {
 
   @@map("incident")
 }
+
+model Location {
+id        String   @id @default(uuid())
+latitude  Float
+longitude Float
+createdAt DateTime @default(now())
+updatedAt DateTime @updatedAt
+
+
+@@map("location")
+}
+

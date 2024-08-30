@@ -13,10 +13,12 @@ export class VehiclesController {
   create(@Body() createVehicleDto: CreateVehicleDto) {
     return this.vehiclesService.create(createVehicleDto);
   }
+  @Public ()
   @Get()
   findAll() {
     return this.vehiclesService.findAll();
   }
+  @Public ()
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateVehicleDto: UpdateVehicleDto) {
     return this.vehiclesService.update(id, updateVehicleDto);
@@ -28,12 +30,14 @@ export class VehiclesController {
   }
 
   //routes pour compter un vehicules
+  @Public ()
   @Get('count')
   countVehicles() {
     return this.vehiclesService.countVehicles();
   }
 
   //routes pour compter une mission d'un vehicule
+  @Public ()
   @Get(':id/mission/count')
   countMissionByVehicleId(@Param('id') vehicleId: string) {
     return this.vehiclesService.countMissionByVehicleId(vehicleId);
@@ -45,6 +49,7 @@ export class VehiclesController {
   // }
 
   //Recupere les vehicules terminees
+  @Public ()
   @Get(':id/vehicles/completed')
   getCompletedVehiclesByVehiclesId(@Param('id') missionid: string) {
     return this.vehiclesService.getCompletedMissionByVehicleId(missionid);

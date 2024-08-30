@@ -26,4 +26,9 @@ export class DriverprofilService {
   remove(id: string) {
     return this.prisma.driverProfil.delete({ where: { id: id } });
   }
+
+  //methodes pour compter des chauffeur
+  countdriverprofil() {
+    return this.prisma.driverProfil.count();
+  }
 }

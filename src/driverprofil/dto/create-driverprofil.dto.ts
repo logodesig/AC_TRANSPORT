@@ -5,6 +5,9 @@ export class CreateDriverprofilDto {
     DrivingLicenseRectoUrl?:  string;
     DrivingLicenseVersoUrl?:  string;
     UserId:  string;
+    name: string;
+    email: string;
+    password: string
 }
 
 

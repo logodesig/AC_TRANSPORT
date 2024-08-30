@@ -31,4 +31,9 @@ export class DriverprofilController {
   remove(@Param('id') id: string) {
     return this.driverprofilService.remove(id);
   }
+  @Public ()
+  @Get('count')
+  countDriverprofil() {
+    return this.driverprofilService.countdriverprofil();
+  }
 }
