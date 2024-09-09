@@ -13,6 +13,7 @@ import { MarchandiseModule } from './marchandise/marchandise.module';
 import { MissionModule } from './mission/mission.module';
 import { NoteModule } from './note/note.module';
 import { DriverprofilModule } from './driverprofil/driverprofil.module';
+import { LocationModule } from './location/location.module';
 
 //////
 //import { PrismaService } from 'src/prisma/prisma.service';
@@ -26,6 +27,18 @@ import { PrismaService } from 'src/prisma/prisma.service';
   controllers: [AppController],
   providers: [AppService, PrismaService],
 })
-export class AppModule {}
+
+
+
+@Module({
+  imports: [
+  LocationModule,
+  // autres modules...
+  ],
+  controllers: [AppController],
+  providers: [AppService],
+  })
+  export class AppModule {}
+  
 
 
