@@ -17,7 +17,7 @@ model User {
   id           String         @id @default(uuid())
   email        String         @unique
   name         String?
-  type         UserType?
+  type         UserType?     @default(ADMIN)
   password     String
   surname      String?
   // role         Role? @relation(fields: [role], references: [id])
@@ -33,6 +33,8 @@ model User {
   @@map("user")
   Maintenance Maintenance[]
 }
+
+
 
 model Role {
   id          String @id @default(uuid())
@@ -126,7 +128,6 @@ model Marchandise {
 }
 
 enum UserType {
-  SUPERADMIN
   ADMIN
   CHAUFFEUR
 }
@@ -188,6 +189,7 @@ model DriverProfil {
   DrivingLicenseVersoUrl String?
   User                   User?     @relation(fields: [UserId], references: [id])
   UserId                 String?
+  type                   UserType?     @default(CHAUFFEUR)
   createdAt              DateTime @default(now())
   updatedAt              DateTime @updatedAt
 
