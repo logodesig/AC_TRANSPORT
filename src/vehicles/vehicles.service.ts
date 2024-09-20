@@ -64,4 +64,56 @@ getCompletedMissionByVehicleId(vehicleId: string) {
 //   });
 //   }
 
+//ici je recupere les DriverProfil en fonction de l'ID d'un administrateur by sosthenes
+allVehiculeByUserId(userId:string){
+  return this.prisma.vehicles.findMany({
+    where:{
+      UserId:userId,
+      isDelete:false
+    },
+    select:{
+      name:true,
+      type:true,
+      state:true,
+      model:true,
+      tonnage:true
+    }
+  })
+}
+
+
+//route pour mettre a jour les informations d'une voiture selon le UserId
+UpdateVehiculesByUserId(userId:string,vId:string,updateVehicleDto:UpdateVehicleDto){
+  return this.prisma.vehicles.update({
+    where:{
+      id:vId,
+      UserId:userId,
+    isDelete:false},
+      data:updateVehicleDto,
+    
+  })
+}
+
+//route pour delete un vehicule by sosthenes
+deleteVehiculeByUserId(userId:string,vId:string,updateVehicleDto:UpdateVehicleDto){
+  return this.prisma.vehicles.update({
+    where:{
+      id:vId,
+      UserId:userId,
+      isDelete:false,
+    },
+    data:updateVehicleDto
+  })
+}
+
+
+//route pour compter le nombre vehicule by sosthenes
+countVehiculeByUserId(userId:string){
+  return this.prisma.vehicles.count({
+    where:{
+      UserId:userId,
+      isDelete:false
+    }
+  });
+}
 }

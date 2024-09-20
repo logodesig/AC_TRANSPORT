@@ -30,6 +30,8 @@ export class UsersService {
     return createdUser;
   }
 
+  
+
   findAll() {
     return this.prisma.user.findMany();
   }

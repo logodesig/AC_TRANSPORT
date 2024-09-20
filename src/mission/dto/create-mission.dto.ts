@@ -1,11 +1,12 @@
 import { MissionStatus } from "@prisma/client";
 
 export class CreateMissionDto {
+    missionName: string;
     description: string;
     dateStart: Date;
-    driverid: string;
+    driverprofilId: string;
     vehicleid: string;
-    status: MissionStatus;
     dateFinish: Date;
-    userCreateId: string
+    UserId: string
 }
+

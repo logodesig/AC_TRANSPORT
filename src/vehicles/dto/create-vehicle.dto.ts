@@ -6,4 +6,5 @@ export class CreateVehicleDto {
     model: string;
     tonnage: number;
     firstYearTakeoff: Date;
+    UserId:string
     }

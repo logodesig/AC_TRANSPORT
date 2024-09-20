@@ -14,7 +14,7 @@ datasource db {
 }
 
 model User {
-  id           String         @id @default(uuid())
+  id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   email        String         @unique
   name         String?
   type         UserType?     @default(ADMIN)
@@ -23,94 +23,113 @@ model User {
   // role         Role? @relation(fields: [role], references: [id])
 // roleid String?
   avatarUrl    String?
-  mission      Mission[]      @relation("driverUser")
+  // mission      Mission[]      @relation("driverUser")
   DriverProfil DriverProfil[]
-
+  Maintenance Maintenance[]
+  // createdMission   Mission[] @relation("UserId")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  createdMission   Mission[] @relation("userCreate")
+  isDelete              Boolean? @default(false)
+
 
   @@map("user")
-  Maintenance Maintenance[]
+  
+  Vehicles Vehicles[]
+  Address Address[]
+  Mission Mission[]
 }
 
 
 
 model Role {
-  id          String @id @default(uuid())
+  id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name        String
   description String
-
-  // user User[]
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  isDelete              Boolean? @default(false)
+
 
   @@map("role")
 }
 
 model Opportunite {
-  id          String   @id @default(uuid())
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nameOp String
   description String
   address     Address  @relation(fields: [addressId], references: [id])
-  addressId   String
+  addressId   String    @db.Uuid
+  driverprofil     DriverProfil      @relation(fields: [driverprofilId], references: [id])
+  driverprofilId    String         @db.Uuid
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  isDelete              Boolean? @default(false)
+
 
   @@map("opportunite")
 }
 
 model Address {
-  id        String  @id @default(uuid())
+  id        String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   country   String
   city      String
   quater    String?
   order     Int?
+  driverprofil     DriverProfil?      @relation(fields: [driverprofilId], references: [id])
+  driverprofilId    String?         @db.Uuid
+  User                   User?     @relation(fields: [UserId], references: [id])
+  UserId                 String?   @db.Uuid
   Opportunite Opportunite[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   Mission     Mission?      @relation(fields: [missionId], references: [id])
   incident    Incident?     @relation(fields: [incidentId], references: [id])
-  incidentId  String
-  missionId   String?
+  incidentId  String?        @db.Uuid
+  missionId   String?     @db.Uuid
+  isDelete              Boolean? @default(false)
+
 
   @@map("address")
 }
 
 model Vehicles {
-  id               String   @id @default(uuid())
+  id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name             String
   type             String
   state            String
   model            String
   tonnage          Int
+  User             User     @relation(fields: [UserId], references: [id])
+  UserId           String   @db.Uuid
   firstYearTakeoff DateTime?
-
   maintenances Maintenance[]
   marchandise  Marchandise[]
   missions     Mission[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
+  isDelete      Boolean? @default(false)
+  DriverProfil DriverProfil[]
 
   @@map("vehicles")
 }
 
 model Maintenance {
-  id              String   @id @default(uuid())
+  id              String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name            String
   type            String
   maintenanceDate DateTime
   vehicle         Vehicles @relation(fields: [vehicleId], references: [id])
-  vehicleId       String
-  user User[]
+  vehicleId       String @db.Uuid
+  user            User[]
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+  isDelete              Boolean? @default(false)
 
   @@map("maintenance")
 }
 
 model Marchandise {
-  id            String     @id @default(uuid())
+  id            String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   type          String
   name          String
   quantity      Int
@@ -118,10 +137,11 @@ model Marchandise {
   volume        Decimal
   volumeUnit    VolumeUnit
   vehicle       Vehicles   @relation(fields: [vehicleId], references: [id])
-  vehicleId     String
+  vehicleId     String    @db.Uuid
   note          Note[]
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
+  isDelete              Boolean? @default(false)
 
 
   @@map("marchandise")
@@ -140,24 +160,28 @@ enum VolumeUnit {
 }
 
 model Mission {
-  id           String        @id @default(uuid())
+  id           String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  missionName String
   description  String
   dateStart    DateTime
-  driver       User          @relation("driverUser", fields: [driverid], references: [id])
-  driverid     String
+ driverprofil     DriverProfil      @relation(fields: [driverprofilId], references: [id])
+  driverprofilId    String         @db.Uuid
   vehicle      Vehicles      @relation(fields: [vehicleid], references: [id])
-  vehicleid    String
-  status       MissionStatus
+  vehicleid    String         @db.Uuid
+  status       MissionStatus?  @default(IN_COMMING)
   dateFinish   DateTime
-  userCreate   User          @relation("userCreate", fields: [userCreateId], references: [id])
-  userCreateId String
-  journey      Address[]
-  Incident     Incident[]
+  User          User     @relation(fields: [UserId], references: [id])
+  UserId        String   @db.Uuid
+  // journey      Address[]
+  // Incident     Incident[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
+  isDelete     Boolean? @default(false)
 
 
   @@map("mission")
+  Incident Incident[]
+  Address Address[]
 }
 
 enum MissionStatus {
@@ -167,55 +191,62 @@ enum MissionStatus {
 }
 
 model Note {
-  id            String       @id @default(uuid())
+  id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   description   String
   Marchandise   Marchandise? @relation(fields: [marchandiseId], references: [id])
-  marchandiseId String?
+  marchandiseId String?       @db.Uuid
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
+  isDelete              Boolean? @default(false)
 
   @@map("note")
 }
 
 model DriverProfil {
-  id                     String   @id @default(uuid())
+  id                     String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   DrivingLicense         String
   name                   String?
-  email                  String?
-  password               String?
-  vehicleId              String?
+  email                  String
+  password               String 
+  vehicle      Vehicles?      @relation(fields: [vehicleid], references: [id])
+  vehicleid    String?         @db.Uuid
   DateOfBirth            DateTime
   DrivingLicenseRectoUrl String?
   DrivingLicenseVersoUrl String?
-  User                   User?     @relation(fields: [UserId], references: [id])
-  UserId                 String?
+  User                   User     @relation(fields: [UserId], references: [id])
+  UserId                 String   @db.Uuid
   type                   UserType?     @default(CHAUFFEUR)
   createdAt              DateTime @default(now())
   updatedAt              DateTime @updatedAt
+  isDelete              Boolean? @default(false)
+
 
   @@map("driverprofil")
+  Opportunite Opportunite[]
+  Address Address[]
+  Mission Mission[]
 }
 
 model Incident {
-  id          String    @id @default(uuid())
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   description String
   address     Address[]
   mission     Mission   @relation(fields: [missionId], references: [id])
-  missionId   String
+  missionId   String    @db.Uuid
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  isDelete              Boolean? @default(false)
 
   @@map("incident")
 }
 
 model Location {
-id        String   @id @default(uuid())
+id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 latitude  Float
 longitude Float
 createdAt DateTime @default(now())
 updatedAt DateTime @updatedAt
-
-
+  isDelete         Boolean? @default(false)
 @@map("location")
 }
 
