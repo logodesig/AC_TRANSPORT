@@ -3,6 +3,8 @@ import { CreateDriverprofilDto } from './dto/create-driverprofil.dto';
 import { UpdateDriverprofilDto } from './dto/update-driverprofil.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
+import { UsersService } from 'src/users/users.service';
+
 
 @Injectable()
 export class DriverprofilService {
@@ -10,6 +12,7 @@ export class DriverprofilService {
 
 
    async create(createDriverprofilDto: CreateDriverprofilDto) {
+
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(createDriverprofilDto.password, salt);
     const createdDriverProfil = await this.prisma.driverProfil.create({
@@ -17,7 +20,24 @@ export class DriverprofilService {
         ...createDriverprofilDto,
         password: hashedPassword,
       },
-    });
+    })
+
+    
+    // const DTOR={type:CHAUFFEUR}
+    //  //ici je cree directement un envoie vers la table user
+    // const Dto = {email:createdDriverProfil.email, name:createdDriverProfil.name,password:createDriverprofilDto.password}
+    // const not1 = await this.prisma.user.create({data:Dto})
+
+    // const update = await this.prisma.user.update({
+    //   where:{
+    //     id:not1.id,
+    //   },
+    //   data:DTOR,
+    // })
+
+
+    
+
     return createdDriverProfil;
   }
 
@@ -50,6 +70,7 @@ export class DriverprofilService {
         isDelete:false
       },
       select:{
+        id:true,
         name:true,
         email:true,
         DrivingLicense:true,
@@ -72,7 +93,8 @@ export class DriverprofilService {
   }
 
   //route pour delete un driverProfil by sosthenes
-  deleteDriverProfilByUserId(userId:string,DPId:string,updateDriverprofilDto:UpdateDriverprofilDto){
+  deleteDriverProfilByUserId(userId:string,DPId:string){
+    const updateDriverprofilDto = {isDelete:true}
     return this.prisma.driverProfil.update({
       where:{
         id:DPId,

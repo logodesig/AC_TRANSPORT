@@ -12,7 +12,9 @@ export class DriverprofilController {
 
   @Post('newDriver')
   create(@Body() createDriverprofilDto: CreateDriverprofilDto) {
-    return this.driverprofilService.create(createDriverprofilDto);
+     return  this.driverprofilService.create(createDriverprofilDto);
+      
+
   }
 
   @Get()
@@ -55,8 +57,8 @@ export class DriverprofilController {
 
   //route pour delete un driverProfil by sosthenes
   @Patch('deleteDriverProfilByUserId/:userId/:DPId')
-  deleteDriverProfilByUserId(@Param('userId') userId:string, @Param('DPId') DPId:string,@Body() updateDriverprofilDto:UpdateDriverprofilDto){
-    return this.driverprofilService.deleteDriverProfilByUserId(userId,DPId,updateDriverprofilDto)
+  deleteDriverProfilByUserId(@Param('userId') userId:string, @Param('DPId') DPId:string){
+    return this.driverprofilService.deleteDriverProfilByUserId(userId,DPId)
   }
   
 //route pour compter le nombre DriverProfile by sosthenes

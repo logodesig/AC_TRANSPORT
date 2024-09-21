@@ -74,8 +74,8 @@ UpdateVehiculesByUserId(@Param('userId') userId:string, @Param('vId') vId:string
 
 //route pour delete un vehicule by sosthenes
 @Patch('deleteVehiculeByUserId/:userId/:vId')
-deleteDriverProfilByUserId(@Param('userId') userId:string, @Param('vId') vId:string, @Body() updateVehicleDto:UpdateVehicleDto){
-  return this.vehiclesService.deleteVehiculeByUserId(userId,vId,updateVehicleDto)
+deleteDriverProfilByUserId(@Param('userId') userId:string, @Param('vId') vId:string){
+  return this.vehiclesService.deleteVehiculeByUserId(userId,vId)
 }
 
 //route pour compter le nombre vehicule by sosthenes

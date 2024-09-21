@@ -16,7 +16,7 @@ datasource db {
 model User {
   id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   email        String         @unique
-  name         String?
+  name         String
   type         UserType?     @default(ADMIN)
   password     String
   surname      String?
@@ -29,6 +29,7 @@ model User {
   // createdMission   Mission[] @relation("UserId")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  
   isDelete              Boolean? @default(false)
 
 

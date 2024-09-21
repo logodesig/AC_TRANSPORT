@@ -72,6 +72,8 @@ allVehiculeByUserId(userId:string){
       isDelete:false
     },
     select:{
+
+    id:true,
       name:true,
       type:true,
       state:true,
@@ -95,7 +97,9 @@ UpdateVehiculesByUserId(userId:string,vId:string,updateVehicleDto:UpdateVehicleD
 }
 
 //route pour delete un vehicule by sosthenes
-deleteVehiculeByUserId(userId:string,vId:string,updateVehicleDto:UpdateVehicleDto){
+deleteVehiculeByUserId(userId:string,vId:string){
+  
+  const updateVehicleDto = {isDelete:true}
   return this.prisma.vehicles.update({
     where:{
       id:vId,
