@@ -3,8 +3,10 @@ export class CreateAddressDto {
     city: string;
     quater: string;
     order: number;
-    driverprofilId:string;
-    UserId :String;
+    UserId :string;
+    userCreated:string;
+    detStart  :  string
+  detEnd     : string
     }
 
     

@@ -18,13 +18,14 @@ model User {
   email        String         @unique
   name         String
   type         UserType?     @default(ADMIN)
-  password     String
+  password     String?
   surname      String?
+  driverProfil  DriverProfil? @relation(fields: [driverProfilId],references: [id])
+  driverProfilId String? @db.Uuid
   // role         Role? @relation(fields: [role], references: [id])
 // roleid String?
   avatarUrl    String?
   // mission      Mission[]      @relation("driverUser")
-  DriverProfil DriverProfil[]
   Maintenance Maintenance[]
   // createdMission   Mission[] @relation("UserId")
   createdAt DateTime  @default(now())
@@ -36,8 +37,11 @@ model User {
   @@map("user")
   
   Vehicles Vehicles[]
-  Address Address[]
   Mission Mission[]
+  DriverProfilCreated DriverProfil[] @relation("userC")
+  Opportunite Opportunite[]
+  AddressC Address[] @relation("userCreated")
+  AddressD Address[] @relation("userDriver")
 }
 
 
@@ -60,8 +64,8 @@ model Opportunite {
   description String
   address     Address  @relation(fields: [addressId], references: [id])
   addressId   String    @db.Uuid
-  driverprofil     DriverProfil      @relation(fields: [driverprofilId], references: [id])
-  driverprofilId    String         @db.Uuid
+  user     User      @relation(fields: [userId], references: [id])
+  userId    String         @db.Uuid
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   isDelete              Boolean? @default(false)
@@ -76,10 +80,10 @@ model Address {
   city      String
   quater    String?
   order     Int?
-  driverprofil     DriverProfil?      @relation(fields: [driverprofilId], references: [id])
-  driverprofilId    String?         @db.Uuid
-  User                   User?     @relation(fields: [UserId], references: [id])
-  UserId                 String?   @db.Uuid
+  User        User     @relation("userDriver",fields: [UserId], references: [id])
+  UserId      String  @db.Uuid
+  userC       User? @relation("userCreated",fields: [userCreated],references: [id])
+  userCreated   String?    @db.Uuid
   Opportunite Opportunite[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
@@ -87,6 +91,8 @@ model Address {
   incident    Incident?     @relation(fields: [incidentId], references: [id])
   incidentId  String?        @db.Uuid
   missionId   String?     @db.Uuid
+  detStart    String
+  detEnd      String
   isDelete              Boolean? @default(false)
 
 
@@ -205,17 +211,16 @@ model Note {
 
 model DriverProfil {
   id                     String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String?
+  email     String?
   DrivingLicense         String
-  name                   String?
-  email                  String
-  password               String 
   vehicle      Vehicles?      @relation(fields: [vehicleid], references: [id])
   vehicleid    String?         @db.Uuid
   DateOfBirth            DateTime
   DrivingLicenseRectoUrl String?
   DrivingLicenseVersoUrl String?
-  User                   User     @relation(fields: [UserId], references: [id])
-  UserId                 String   @db.Uuid
+  userC                   User    @relation("userC",fields: [userCreated],references: [id])
+  userCreated             String  @db.Uuid
   type                   UserType?     @default(CHAUFFEUR)
   createdAt              DateTime @default(now())
   updatedAt              DateTime @updatedAt
@@ -223,9 +228,8 @@ model DriverProfil {
 
 
   @@map("driverprofil")
-  Opportunite Opportunite[]
-  Address Address[]
   Mission Mission[]
+  User User[]
 }
 
 model Incident {

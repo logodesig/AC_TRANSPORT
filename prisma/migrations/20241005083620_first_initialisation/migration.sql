@@ -11,10 +11,11 @@ CREATE TYPE "MissionStatus" AS ENUM ('IN_COMMING', 'CURRENTLY', 'FINISH');
 CREATE TABLE "user" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "email" TEXT NOT NULL,
-    "name" TEXT,
+    "name" TEXT NOT NULL,
     "type" "UserType" DEFAULT 'ADMIN',
-    "password" TEXT NOT NULL,
+    "password" TEXT,
     "surname" TEXT,
+    "driverProfilId" UUID,
     "avatarUrl" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -41,7 +42,7 @@ CREATE TABLE "opportunite" (
     "nameOp" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "addressId" UUID NOT NULL,
-    "driverprofilId" UUID NOT NULL,
+    "userId" UUID NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "isDelete" BOOLEAN DEFAULT false,
@@ -56,12 +57,14 @@ CREATE TABLE "address" (
     "city" TEXT NOT NULL,
     "quater" TEXT,
     "order" INTEGER,
-    "driverprofilId" UUID,
-    "UserId" UUID,
+    "UserId" UUID NOT NULL,
+    "userCreated" UUID NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "incidentId" UUID,
     "missionId" UUID,
+    "detStart" TEXT NOT NULL,
+    "detEnd" TEXT NOT NULL,
     "isDelete" BOOLEAN DEFAULT false,
 
     CONSTRAINT "address_pkey" PRIMARY KEY ("id")
@@ -148,15 +151,14 @@ CREATE TABLE "note" (
 -- CreateTable
 CREATE TABLE "driverprofil" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
-    "DrivingLicense" TEXT NOT NULL,
     "name" TEXT,
-    "email" TEXT NOT NULL,
-    "password" TEXT NOT NULL,
+    "email" TEXT,
+    "DrivingLicense" TEXT NOT NULL,
     "vehicleid" UUID,
     "DateOfBirth" TIMESTAMP(3) NOT NULL,
     "DrivingLicenseRectoUrl" TEXT,
     "DrivingLicenseVersoUrl" TEXT,
-    "UserId" UUID NOT NULL,
+    "userCreated" UUID NOT NULL,
     "type" "UserType" DEFAULT 'CHAUFFEUR',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -205,16 +207,19 @@ CREATE UNIQUE INDEX "_MaintenanceToUser_AB_unique" ON "_MaintenanceToUser"("A", 
 CREATE INDEX "_MaintenanceToUser_B_index" ON "_MaintenanceToUser"("B");
 
 -- AddForeignKey
+ALTER TABLE "user" ADD CONSTRAINT "user_driverProfilId_fkey" FOREIGN KEY ("driverProfilId") REFERENCES "driverprofil"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "opportunite" ADD CONSTRAINT "opportunite_addressId_fkey" FOREIGN KEY ("addressId") REFERENCES "address"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "opportunite" ADD CONSTRAINT "opportunite_driverprofilId_fkey" FOREIGN KEY ("driverprofilId") REFERENCES "driverprofil"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "opportunite" ADD CONSTRAINT "opportunite_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "address" ADD CONSTRAINT "address_driverprofilId_fkey" FOREIGN KEY ("driverprofilId") REFERENCES "driverprofil"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "address" ADD CONSTRAINT "address_UserId_fkey" FOREIGN KEY ("UserId") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "address" ADD CONSTRAINT "address_UserId_fkey" FOREIGN KEY ("UserId") REFERENCES "user"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "address" ADD CONSTRAINT "address_userCreated_fkey" FOREIGN KEY ("userCreated") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "address" ADD CONSTRAINT "address_missionId_fkey" FOREIGN KEY ("missionId") REFERENCES "mission"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -247,7 +252,7 @@ ALTER TABLE "note" ADD CONSTRAINT "note_marchandiseId_fkey" FOREIGN KEY ("marcha
 ALTER TABLE "driverprofil" ADD CONSTRAINT "driverprofil_vehicleid_fkey" FOREIGN KEY ("vehicleid") REFERENCES "vehicles"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "driverprofil" ADD CONSTRAINT "driverprofil_UserId_fkey" FOREIGN KEY ("UserId") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "driverprofil" ADD CONSTRAINT "driverprofil_userCreated_fkey" FOREIGN KEY ("userCreated") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "incident" ADD CONSTRAINT "incident_missionId_fkey" FOREIGN KEY ("missionId") REFERENCES "mission"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

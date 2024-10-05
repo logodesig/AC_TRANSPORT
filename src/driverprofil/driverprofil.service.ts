@@ -13,32 +13,18 @@ export class DriverprofilService {
 
    async create(createDriverprofilDto: CreateDriverprofilDto) {
 
-    const salt = await bcrypt.genSalt();
-    const hashedPassword = await bcrypt.hash(createDriverprofilDto.password, salt);
-    const createdDriverProfil = await this.prisma.driverProfil.create({
-      data: {
-        ...createDriverprofilDto,
-        password: hashedPassword,
-      },
+  const drivers =  await this.prisma.driverProfil.create({
+      data:createDriverprofilDto 
     })
 
-    
-    // const DTOR={type:CHAUFFEUR}
-    //  //ici je cree directement un envoie vers la table user
-    // const Dto = {email:createdDriverProfil.email, name:createdDriverProfil.name,password:createDriverprofilDto.password}
-    // const not1 = await this.prisma.user.create({data:Dto})
+    let user={name:drivers.name,
+      email:drivers.email,
+      type:drivers.type,
+      driverProfilId:drivers.id
+    }
 
-    // const update = await this.prisma.user.update({
-    //   where:{
-    //     id:not1.id,
-    //   },
-    //   data:DTOR,
-    // })
-
-
-    
-
-    return createdDriverProfil;
+    const users = await this.prisma.user.create({data:user})
+    return users ;
   }
 
   findAll() {
@@ -66,7 +52,7 @@ export class DriverprofilService {
   allDriverByUserId(userId:string){
     return this.prisma.driverProfil.findMany({
       where:{
-        UserId:userId,
+        // UserId:userId,
         isDelete:false
       },
       select:{
@@ -85,7 +71,7 @@ export class DriverprofilService {
     return this.prisma.driverProfil.update({
       where:{
         id:DPId,
-        UserId:userId,
+        // UserId:userId,
         isDelete:false
       },
       data:updateDriverprofilDto,
@@ -98,7 +84,7 @@ export class DriverprofilService {
     return this.prisma.driverProfil.update({
       where:{
         id:DPId,
-        UserId:userId,
+        // UserId:userId,
         isDelete:false,
       },
       data:updateDriverprofilDto
@@ -110,7 +96,7 @@ export class DriverprofilService {
 countAllDriverProfilByUserId(userId:string){
   return this.prisma.driverProfil.count({
     where:{
-      UserId:userId,
+      // UserId:userId,
       isDelete:false
     }
   });

@@ -5,8 +5,20 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class OpportuniteService {
   constructor(private prisma: PrismaService) {}
-  create(createOpportuniteDto: CreateOpportuniteDto) {
+  async create(createOpportuniteDto: CreateOpportuniteDto) {
+    let type = await this.prisma.user.findMany({
+      where:{
+        id:createOpportuniteDto.userId,
+      }
+    })
+     let types = type.find(type => type.type)
+
+     //ici je fait des restriction de tell maniere que c'est que des chauffeur qui peuvent effectue cette action
+    if(types.type === "ADMIN"){
+      return "vous n'etes pas autorise a effectuer cette action";
+    }else{
     return this.prisma.opportunite.create({ data: createOpportuniteDto });
+    }
   }
 
   findAll() {
