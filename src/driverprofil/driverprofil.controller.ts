@@ -9,7 +9,6 @@ import { UpdateAddressDto } from 'src/address/dto/update-address.dto';
 
 export class DriverprofilController {
   constructor(private readonly driverprofilService: DriverprofilService) {}
-
   @Post('newDriver')
   create(@Body() createDriverprofilDto: CreateDriverprofilDto) {
      return  this.driverprofilService.create(createDriverprofilDto);

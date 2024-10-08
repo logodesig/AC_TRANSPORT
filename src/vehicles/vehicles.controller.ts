@@ -59,7 +59,7 @@ export class VehiclesController {
   }
 
 //route pour recuperer les Vehicules en fonction de l'ID d'un administrateur by sosthenes
-@Get('allDriverByUserId/:userId')
+@Get('allVehiculeByUserId/:userId')
 allVehiculeByUserId(@Param('userId') userId:string){
   return this.vehiclesService.allVehiculeByUserId(userId);
 }
