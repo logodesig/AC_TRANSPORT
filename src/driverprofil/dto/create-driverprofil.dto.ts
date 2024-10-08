@@ -9,7 +9,7 @@ export class CreateDriverprofilDto {
     DrivingLicenseRectoUrl:  string;
     DrivingLicenseVersoUrl:  string;
     // UserId:  string;
-    userCreated: string;
+    userCreated: string; 
 }
 
 
