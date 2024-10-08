@@ -4,7 +4,6 @@ export class CreateAddressDto {
     incidentId: string;
     missionId: string;
     }
-
     // quater    String?
     // order     Int?
     //                String?   @db.Uuid

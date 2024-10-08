@@ -72,6 +72,7 @@ allVehiculeByUserId(userId:string){
       isDelete:false
     },
     select:{
+      id :true,
       name:true,
       type:true,
       state:true,
